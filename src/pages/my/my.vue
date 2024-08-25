@@ -8,7 +8,7 @@ const memberStore = useMemberStore()
 const getData = async () => {
   const data = await http({
     method: 'GET',
-    url: '/home/banner',
+    url: '',
     header: {},
   })
 }
