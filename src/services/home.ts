@@ -39,9 +39,10 @@ export const getHomeHotAPI = () => {
 /**
  * 猜你喜欢
  */
-export const getHomeGoodsGuessLikeAPI = () => {
+export const getHomeGoodsGuessLikeAPI = (data?: PageParams) => {
   return http<PageResult<GuessItem>>({
     method: 'GET',
     url: '/home/goods/guessLike',
+    data,
   })
 }
