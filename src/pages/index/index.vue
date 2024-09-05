@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CustomNavbar from './components/CustomNavbar.vue'
-import type { BannerItem, CategoryItem } from '@/types/home'
-import { getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
+import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
+import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
 import CategoryPanel from './components/CategoryPanel.vue'
+import HotPanel from './components/HotPanel.vue'
 
 // 获取轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -20,10 +21,18 @@ const getHomeCategoryData = async () => {
   categoryList.value = res.result
 }
 
+// 获取热门推荐数据
+const hotList = ref<HotItem[]>([])
+const getHomeHotData = async () => {
+  const res = await getHomeHotAPI()
+  hotList.value = res.result
+}
+
 // 页面加载
 onLoad(() => {
   getHomeBannerData()
   getHomeCategoryData()
+  getHomeHotData()
 })
 </script>
 
@@ -34,6 +43,8 @@ onLoad(() => {
   <XtxSwiper :list="bannerList" />
   <!-- 分类 -->
   <CategoryPanel :list="categoryList" />
+  <!-- 热门推荐 -->
+  <HotPanel :list="hotList" />
   <view class="index">
     <uni-card title="基础卡片" extra="额外信息">
       <text>这是一个基础卡片示例，此示例展示了一个标题加标题额外信息的标准卡片。</text>
