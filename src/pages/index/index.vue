@@ -4,6 +4,7 @@ import CustomNavbar from './components/CustomNavbar.vue'
 import type { BannerItem } from '@/types/home'
 import { getHomeBannerAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
+import CategoryPanel from './components/CategoryPanel.vue'
 
 // 获取轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -19,9 +20,12 @@ onLoad(() => {
 </script>
 
 <template>
+  <!-- 自定义导航栏 -->
   <CustomNavbar />
   <!-- 自定义轮播图 -->
   <XtxSwiper :list="bannerList" />
+  <!-- 分类 -->
+  <CategoryPanel />
   <view class="index">
     <uni-card title="基础卡片" extra="额外信息">
       <text>这是一个基础卡片示例，此示例展示了一个标题加标题额外信息的标准卡片。</text>
@@ -30,5 +34,7 @@ onLoad(() => {
 </template>
 
 <style lang="scss">
-//
+page {
+  background-color: #f7f7f7;
+}
 </style>
