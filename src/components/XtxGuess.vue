@@ -6,23 +6,37 @@ import { onMounted, ref } from 'vue'
 
 // 分页参数
 const pageParams: Required<PageParams> = {
-  page: 1,
+  page: 30,
   pageSize: 10,
 }
 
+// 已结束标记
+const finish = ref(false)
+
 // 获取猜你喜欢列表数据
-const guessList = ref<GuessItem[]>()
+const guessList = ref<GuessItem[]>([])
 const getGoodsGuessLikeData = async () => {
-  const res = await getHomeGoodsGuessLikeAPI()
+  // 退出判断
+  if (finish.value === true) {
+    return uni.showToast({ icon: 'none', title: '没有更多数据～' })
+  }
+
+  const res = await getHomeGoodsGuessLikeAPI(pageParams)
   // 数组追加
   guessList.value?.push(...res.result.items)
-  // 页码累加
-  pageParams.page++
+
+  // 分页条件
+  if (pageParams.page < res.result.pages) {
+    // 页码累加
+    pageParams.page++
+  } else {
+    finish.value = true
+  }
 }
 
 // 暴露方法
 defineExpose({
-  getMore: getHomeGoodsGuessLikeAPI,
+  getMore: getGoodsGuessLikeData,
 })
 
 // 组件挂载完毕
@@ -51,7 +65,7 @@ onMounted(() => {
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <view class="loading-text"> {{ finish ? '没有更多数据～' : '正在加载...' }}</view>
 </template>
 
 <style lang="scss">
