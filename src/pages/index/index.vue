@@ -39,21 +39,27 @@ onLoad(() => {
 <template>
   <!-- 自定义导航栏 -->
   <CustomNavbar />
-  <!-- 自定义轮播图 -->
-  <XtxSwiper :list="bannerList" />
-  <!-- 分类 -->
-  <CategoryPanel :list="categoryList" />
-  <!-- 热门推荐 -->
-  <HotPanel :list="hotList" />
-  <view class="index">
-    <uni-card title="基础卡片" extra="额外信息">
-      <text>这是一个基础卡片示例，此示例展示了一个标题加标题额外信息的标准卡片。</text>
-    </uni-card>
-  </view>
+  <scroll-view class="scrollView" scroll-y>
+    <!-- 自定义轮播图 -->
+    <XtxSwiper :list="bannerList" />
+    <!-- 分类 -->
+    <CategoryPanel :list="categoryList" />
+    <!-- 热门推荐 -->
+    <HotPanel :list="hotList" />
+    <!-- 猜你喜欢 -->
+    <XtxGuess />
+  </scroll-view>
 </template>
 
 <style lang="scss">
 page {
+  height: 100%;
   background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+
+  .scrollView {
+    flex: 1;
+  }
 }
 </style>
