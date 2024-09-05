@@ -1,5 +1,16 @@
 <script setup lang="ts">
-//
+import { getHomeGoodsGuessLikeAPI } from '@/services/home'
+import { onMounted } from 'vue'
+
+// 获取猜你喜欢列表数据
+const getGoodsGuessLikeData = async () => {
+  const res = await getHomeGoodsGuessLikeAPI()
+}
+
+// 组件挂载完毕
+onMounted(() => {
+  getGoodsGuessLikeData()
+})
 </script>
 
 <template>
