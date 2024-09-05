@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CustomNavbar from './components/CustomNavbar.vue'
-import type { BannerItem } from '@/types/home'
+import type { BannerItem, CategoryItem } from '@/types/home'
 import { getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
 import CategoryPanel from './components/CategoryPanel.vue'
@@ -14,8 +14,10 @@ const getHomeBannerData = async () => {
 }
 
 // 获取前台分类数据
+const categoryList = ref<CategoryItem[]>([])
 const getHomeCategoryData = async () => {
   const res = await getHomeCategoryAPI()
+  categoryList.value = res.result
 }
 
 // 页面加载
@@ -31,7 +33,7 @@ onLoad(() => {
   <!-- 自定义轮播图 -->
   <XtxSwiper :list="bannerList" />
   <!-- 分类 -->
-  <CategoryPanel />
+  <CategoryPanel :list="categoryList" />
   <view class="index">
     <uni-card title="基础卡片" extra="额外信息">
       <text>这是一个基础卡片示例，此示例展示了一个标题加标题额外信息的标准卡片。</text>
