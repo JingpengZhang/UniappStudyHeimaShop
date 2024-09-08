@@ -5,8 +5,13 @@ import type { BannerItem } from '@/types/home'
 import type { CategoryTopItem } from '@/types/category'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref, computed } from 'vue'
+import PageSkeleton from './components/PageSkeleton.vue'
+
 // 轮播图
 const bannerList = ref<BannerItem[]>([])
+
+// 页面数据是否加载完毕
+const isFinish = ref(false)
 
 // 获取轮播图数据
 const getHomeBannerData = async () => {
@@ -23,9 +28,9 @@ const getCategoryTopData = async () => {
 }
 
 // 页面加载
-onLoad(() => {
-  getHomeBannerData()
-  getCategoryTopData()
+onLoad(async () => {
+  await Promise.all([getHomeBannerData(), getCategoryTopData()])
+  isFinish.value = true
 })
 
 // 基于当前选择的一级分类提取耳机分类数据
@@ -35,7 +40,7 @@ const subCategoryList = computed(() => {
 </script>
 
 <template>
-  <view class="viewport">
+  <view class="viewport" v-if="isFinish">
     <!-- 搜索框 -->
     <view class="search">
       <view class="input">
@@ -86,6 +91,7 @@ const subCategoryList = computed(() => {
       </scroll-view>
     </view>
   </view>
+  <PageSkeleton v-else />
 </template>
 
 <style lang="scss">
