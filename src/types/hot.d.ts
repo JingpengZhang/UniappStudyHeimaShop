@@ -1,3 +1,5 @@
+import type { GoodsItem, PageResult } from './global'
+
 /** 热门推荐 */
 export type HotResult = {
   /** id信息 */
