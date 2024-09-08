@@ -40,6 +40,26 @@ const getHotRecommendData = async () => {
 onLoad(() => {
   getHotRecommendData()
 })
+
+// 滚动触底
+const onScrolltolower = async () => {
+  // 获取当前选项
+  const currSubType = subTypes.value[activeIndex.value]
+
+  // 当前页面累加
+  currSubType.goodsItems.page++
+
+  // 调用 API 传参
+  const res = await getHotRecommendAPI(currUrlMap!.url, {
+    subType: currSubType.id,
+    page: currSubType.goodsItems.page,
+    pageSize: currSubType.goodsItems.pageSize,
+  })
+  // 新的列表选项
+  const newGoodsItems = res.result.subTypes[activeIndex.value].goodsItems.items
+  // 数组追加
+  currSubType.goodsItems.items.push(...newGoodsItems)
+}
 </script>
 
 <template>
@@ -66,6 +86,7 @@ onLoad(() => {
       v-for="(item, index) in subTypes"
       :key="item.id"
       v-show="activeIndex === index"
+      @scrolltolower="onScrolltolower"
     >
       <view class="goods">
         <navigator
