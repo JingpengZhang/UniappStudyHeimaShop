@@ -17,3 +17,16 @@ export const postLoginWxMin = (data: LoginParams) => {
     data,
   })
 }
+
+/**
+ * 小程序登录（内测版）
+ */
+export const postLoginWxMinSimpleAPI = (phoneNumber: string) => {
+  return http({
+    method: 'POST',
+    url: '/login/wxMin/simple',
+    data: {
+      phoneNumber,
+    },
+  })
+}
